@@ -20,11 +20,52 @@ print(A)
 lsgmenge = ['1','2','3','4','5','6','7','8','9']
 print(lsgmenge)
 
+def get_block(z,s):
+
+    # alle kleinen Blöcke
+    case = {1 : A[0:3,0:3],
+            2 : A[0:3,3:6],
+            3 : A[0:3,6:9],
+
+            4 : A[3:6,0:3],
+            5 : A[3:6,3:6],
+            6 : A[3:6,6:9],
+
+            7 : A[6:9,0:3],
+            8 : A[6:9,3:6],
+            9 : A[6:9,6:9],
+            }
+
+    # Zuweisung des richtigen Blockes
+    if (0 <= s < 3) and (0 <= z < 3): A_block = case[1]
+    if (0 <= s < 3) and (3 <= z < 6): A_block = case[2]
+    if (0 <= s < 3) and (6 <= z < 9): A_block = case[3]
+
+    if (3 <= s < 6) and (0 <= z < 3): A_block = case[4]
+    if (3 <= s < 6) and (3 <= z < 6): A_block = case[5]
+    if (3 <= s < 6) and (6 <= z < 9): A_block = case[6]
+
+    if (6 <= s < 9) and (0 <= z < 3): A_block = case[7]
+    if (6 <= s < 9) and (3 <= z < 6): A_block = case[8]
+    if (6 <= s < 9) and (6 <= z < 9): A_block = case[9]
+
+    print(A_block)
+    return A_block
+
+
 def check_cell(z,s):
-    for i in range(1,9):
+    print('')
+    print('z (zeile): ', end='')
+    print(z)
+    print('s (spalte): ', end='')
+    print(s)
+
+    zahl_block = get_block(z,s)
+
+    for i in range(0,9):
         zahl_zeile = A[z,i]
         zahl_spalte = A[i,s]
-        #zahl_block = A_klein1[0,i]
+
         # prüfe Zeile
         if zahl_zeile != 0 and (str(zahl_zeile) in lsgmenge):
             lsgmenge.remove(str(zahl_zeile))
@@ -38,11 +79,12 @@ def check_cell(z,s):
 
 # für alle
 # Spalte
-for s in range(1,9):
+for s in range(0,9):
     # Zeilen
-    for z in range(1,9):
+    for z in range(0,9):
         # für eine Zelle
         check_cell(z,s)
+
 
 
 

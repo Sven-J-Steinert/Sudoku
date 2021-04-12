@@ -48,7 +48,7 @@ for s in range(0,9):
         if A[s,z] != 0:
             objs[9*s+z].value = [str(A[s,z])]
 
-
+print_lsgmenge()
 
 
 def get_block(z,s):
@@ -94,21 +94,29 @@ def check_cell(z,s,list):
     # hole passenden Block und forme ihn zu einer Liste
     block = get_block(z,s).reshape(1, 9)[0]
 
+    # Wert der aktuellen Zelle
+    cell = str(A[z,s])
 
-    for i in range(0,9):
-        zahl_zeile = A[z,i]
-        zahl_spalte = A[i,s]
-        zahl_block = block[i]
+    # nur wenn Feld noch nicht bekannt
+    if cell == '0':
 
-        # prüfe Zeile
-        if zahl_zeile != 0 and (str(zahl_zeile) in list):
-            list.remove(str(zahl_zeile))
-        # prüfe Spalte
-        if zahl_spalte != 0 and (str(zahl_spalte) in list):
-            list.remove(str(zahl_spalte))
-        # prüfe Block
-        if zahl_block != 0 and (str(zahl_block) in list):
-            list.remove(str(zahl_block))
+        for i in range(0,9):
+            zahl_zeile = A[z,i]
+            zahl_spalte = A[i,s]
+            zahl_block = block[i]
+
+            # prüfe Zeile
+            if zahl_zeile != 0 and (str(zahl_zeile) in list):
+                list.remove(str(zahl_zeile))
+
+            # prüfe Spalte
+            if zahl_spalte != 0 and (str(zahl_spalte) in list):
+                list.remove(str(zahl_spalte))
+
+            # prüfe Block
+            if zahl_block != 0 and (str(zahl_block) in list):
+                list.remove(str(zahl_block))
+
 
 
 

@@ -13,5 +13,9 @@ print(A)
 #print(A[0,1])
 
 B = A
+
 for i in range(9):
-    print(i)
+    if B[1,i] == 1:
+        print('eins da')
+    else:
+        print('eins nicht da')

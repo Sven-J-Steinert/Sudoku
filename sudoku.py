@@ -27,8 +27,12 @@ for i in range(81):
 
 def print_lsgmenge():
     for i in range(81):
-        print(objs[i].__dict__, end='   ')
-        print(i)
+        print(i, end=' ')
+        if len(objs[i].value) == 1:
+            print('solved.', end=' ')
+        else:
+            print('        ', end='')
+        print(objs[i].__dict__)
     print('')
 
 
@@ -107,11 +111,11 @@ def check_cell(z,s,list):
             list.remove(str(zahl_block))
 
 
-# für alle
+
 # Spalte
-for s in range(0,1):
+for s in range(0,9):
     # Zeilen
-    for z in range(0,1):
+    for z in range(0,9):
         # für eine Zelle
         check_cell(z,s,list=objs[9*s+z].value)
 

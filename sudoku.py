@@ -14,8 +14,14 @@ print(A)
 
 B = A
 
-for i in range(9):
-    if B[1,i] == 1:
-        print('eins da')
-    else:
-        print('eins nicht da')
+lsgmenge = ['1','2','3','4','5','6','7','8','9']
+print(lsgmenge)
+
+# Zeile
+for i in range(1,9):
+    zahl = A[0,i]
+    if zahl != 0:
+        lsgmenge.remove(str(zahl))
+
+
+print(lsgmenge)

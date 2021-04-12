@@ -1,24 +1,51 @@
 import numpy as np
 
-A = np.array([[0, 3, 1, 0, 0, 0, 0, 0, 0,],
-             [7, 6, 2, 1, 9, 5, 0, 0, 0,],
-             [9, 5, 8, 0, 0, 0, 0, 6, 0,],
+A = np.array([[0, 3, 0, 0, 0, 0, 0, 0, 0,],
+             [0, 0, 0, 1, 9, 5, 0, 0, 0,],
+             [0, 0, 8, 0, 0, 0, 0, 6, 0,],
              [8, 0, 0, 0, 6, 0, 0, 0, 0,],
-             [0, 0, 0, 8, 0, 0, 0, 0, 1,],
+             [4, 0, 0, 8, 0, 0, 0, 0, 1,],
              [0, 0, 0, 0, 2, 0, 0, 0, 0,],
              [0, 6, 0, 0, 0, 0, 2, 8, 0,],
              [0, 0, 0, 4, 1, 9, 0, 0, 5,],
              [0, 0, 0, 0, 0, 0, 0, 7, 0,]])
 
-#A_klein1 = A[0:3,0:3].reshape((1, 9))
-
-
-#print(A_klein1)
 print(A)
+print('')
 
-# Anfangslösungsmenge
-lsgmenge = ['1','2','3','4','5','6','7','8','9']
-print(lsgmenge)
+# Anfangslösungsmenge Klasse
+class LSG():
+    def __init__(self):
+        self.value = ['1','2','3','4','5','6','7','8','9']
+
+
+# Objektliste der Anfangslösungsmengen
+objs = list()
+for i in range(81):
+    objs.append(LSG())
+
+
+def print_lsgmenge():
+    for i in range(81):
+        print(objs[i].__dict__, end='   ')
+        print(i)
+    print('')
+
+
+print_lsgmenge()
+
+
+# reduziere die Lösungsmengen bei den gegebenen Werte
+# Spalte
+for s in range(0,9):
+    # Zeilen
+    for z in range(0,9):
+        # für eine Zelle
+        if A[s,z] != 0:
+            objs[9*s+z].value = [str(A[s,z])]
+
+
+
 
 def get_block(z,s):
 
@@ -49,52 +76,49 @@ def get_block(z,s):
     if (6 <= s < 9) and (3 <= z < 6): A_block = case[8]
     if (6 <= s < 9) and (6 <= z < 9): A_block = case[9]
 
-    print(A_block)
+    #print(A_block)
     return A_block
 
 
-def check_cell(z,s):
-    print('')
-    print('z (zeile): ', end='')
-    print(z)
-    print('s (spalte): ', end='')
-    print(s)
+def check_cell(z,s,list):
+    #print('')
+    #print('z (zeile): ', end='')
+    #print(z)
+    #print('s (spalte): ', end='')
+    #print(s)
 
-    zahl_block = get_block(z,s)
+    # hole passenden Block und forme ihn zu einer Liste
+    block = get_block(z,s).reshape(1, 9)[0]
+
 
     for i in range(0,9):
         zahl_zeile = A[z,i]
         zahl_spalte = A[i,s]
+        zahl_block = block[i]
 
         # prüfe Zeile
-        if zahl_zeile != 0 and (str(zahl_zeile) in lsgmenge):
-            lsgmenge.remove(str(zahl_zeile))
+        if zahl_zeile != 0 and (str(zahl_zeile) in list):
+            list.remove(str(zahl_zeile))
         # prüfe Spalte
-        if zahl_spalte != 0 and (str(zahl_spalte) in lsgmenge):
-            lsgmenge.remove(str(zahl_spalte))
+        if zahl_spalte != 0 and (str(zahl_spalte) in list):
+            list.remove(str(zahl_spalte))
         # prüfe Block
-        #if zahl_block != 0 and (str(zahl_block) in lsgmenge):
-        #    lsgmenge.remove(str(zahl_block))
+        if zahl_block != 0 and (str(zahl_block) in list):
+            list.remove(str(zahl_block))
 
 
 # für alle
 # Spalte
-for s in range(0,9):
+for s in range(0,1):
     # Zeilen
-    for z in range(0,9):
+    for z in range(0,1):
         # für eine Zelle
-        check_cell(z,s)
-
-
-
-
-
-
-
+        check_cell(z,s,list=objs[9*s+z].value)
 
 
 
 
 
 # eingeschränke Lösungsmenge
-print(lsgmenge)
+print_lsgmenge()
+print('end.')

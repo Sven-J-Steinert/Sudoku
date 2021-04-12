@@ -36,7 +36,6 @@ def print_lsgmenge():
     print('')
 
 
-print_lsgmenge()
 
 
 # reduziere die Lösungsmengen bei den gegebenen Werte
@@ -48,7 +47,7 @@ for s in range(0,9):
         if A[s,z] != 0:
             objs[9*s+z].value = [str(A[s,z])]
 
-print_lsgmenge()
+#print_lsgmenge()
 
 
 def get_block(z,s):
@@ -95,14 +94,14 @@ def check_cell(z,s,list):
     block = get_block(z,s).reshape(1, 9)[0]
 
     # Wert der aktuellen Zelle
-    cell = str(A[z,s])
+    cell = str(A[s,z])
 
     # nur wenn Feld noch nicht bekannt
     if cell == '0':
 
         for i in range(0,9):
-            zahl_zeile = A[z,i]
-            zahl_spalte = A[i,s]
+            zahl_zeile = A[s,i]
+            zahl_spalte = A[i,z]
             zahl_block = block[i]
 
             # prüfe Zeile
@@ -117,7 +116,7 @@ def check_cell(z,s,list):
             if zahl_block != 0 and (str(zahl_block) in list):
                 list.remove(str(zahl_block))
 
-
+    # vervollständigen
 
 
 # Spalte
@@ -125,7 +124,7 @@ for s in range(0,9):
     # Zeilen
     for z in range(0,9):
         # für eine Zelle
-        check_cell(z,s,list=objs[9*s+z].value)
+        check_cell(z=z,s=s,list=objs[9*s+z].value)
 
 
 

@@ -81,36 +81,39 @@ def get_block(z, s):
 
     # Zuweisung des richtigen Blockes
     if (0 <= s < 3) and (0 <= z < 3):
-        a_block = case[1]
+      a_block = case[1]
     if (0 <= s < 3) and (3 <= z < 6):
-        a_block = case[2]
+      a_block = case[2]
     if (0 <= s < 3) and (6 <= z < 9):
-        a_block = case[3]
+      a_block = case[3]
 
     if (3 <= s < 6) and (0 <= z < 3):
-        a_block = case[4]
+      a_block = case[4]
     if (3 <= s < 6) and (3 <= z < 6):
-        a_block = case[5]
+      a_block = case[5]
     if (3 <= s < 6) and (6 <= z < 9):
-        a_block = case[6]
+      a_block = case[6]
 
     if (6 <= s < 9) and (0 <= z < 3):
-        a_block = case[7]
+      a_block = case[7]
     if (6 <= s < 9) and (3 <= z < 6):
-        a_block = case[8]
+      a_block = case[8]
     if (6 <= s < 9) and (6 <= z < 9):
-        a_block = case[9]
+      a_block = case[9]
 
-    # print(a_block)
+
+    #print(A_block)
     return a_block
 
 
-def check_cell(z, s, list):
-    # print('')
-    # print('z (zeile): ', end='')
-    # print(z)
-    # print('s (spalte): ', end='')
-    # print(s)
+
+def check_cell(z,s,list):
+    #print('')
+    #print('z (zeile): ', end='')
+    #print(z)
+    #print('s (spalte): ', end='')
+    #print(s)
+
 
     # hole passenden Block und forme ihn zu einer Liste
     block = get_block(z, s).reshape(1, 9)[0]

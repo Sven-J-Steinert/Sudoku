@@ -1,4 +1,5 @@
 import numpy as np
+from collections import Counter
 
 A = np.array([[0, 3, 0, 0, 0, 0, 0, 0, 0,],
              [0, 0, 0, 1, 9, 5, 0, 0, 0,],
@@ -35,6 +36,17 @@ def print_lsgmenge():
         print(objs[i].__dict__)
     print('')
 
+def flatten_list(_2d_list):
+    flat_list = []
+    # Iterate through the outer list
+    for element in _2d_list:
+        if type(element) is list:
+            # If the element is of type list, iterate through the sublist
+            for item in element:
+                flat_list.append(item)
+        else:
+            flat_list.append(element)
+    return flat_list
 
 
 
@@ -116,20 +128,56 @@ def check_cell(z,s,list):
             if zahl_block != 0 and (str(zahl_block) in list):
                 list.remove(str(zahl_block))
 
-    # vervollständigen
 
 
-# Spalte
-for s in range(0,9):
-    # Zeilen
-    for z in range(0,9):
-        # für eine Zelle
-        check_cell(z=z,s=s,list=objs[9*s+z].value)
+
+for n in range(0,81):
+    # Spalte
+    for s in range(0,9):
+        # Zeilen
+        for z in range(0,9):
+            # für eine Zelle
+            check_cell(z=z,s=s,list=objs[9*s+z].value)
 
 
+    #print_lsgmenge()
+
+    # schreibe Lösung in Feld
+    for s in range(0,9):
+        # Zeilen
+        for z in range(0,9):
+            x = s*9+z
+            if len(objs[x].value) == 1:
+                for y in objs[x].value:
+                    value = int(y)
+                A[s,z] = value
+    print('')
+    print(A)
+
+
+
+
+
+
+# vervollständigen
+
+for i in range(0,9):
+
+    # zähle Zeile
+    ges_z = list()
+    for j in range(0,9):
+        ges_z.append(objs[i*9+j].value)
+    print(Counter(flatten_list(ges_z)))
+    print('')
+    ges_z = 0
+
+    # zähle Spalte
+
+
+    # zähle Block
 
 
 
 # eingeschränke Lösungsmenge
-print_lsgmenge()
+#print_lsgmenge()
 print('end.')

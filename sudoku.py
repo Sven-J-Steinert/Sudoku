@@ -172,7 +172,11 @@ for i in range(0, 9):
     ges_z = list()
     for j in range(0, 9):
         ges_z.append(objs[i * 9 + j].value)
-    print(Counter(flatten_list(ges_z)))
+    anzahl_liste = Counter(flatten_list(ges_z))
+    print(anzahl_liste)
+    for c in range(1,10):
+        if anzahl_liste[str(c)] == 1 :
+            print(str(c) + ' nur einmal')
     print('')
     ges_z = 0
 

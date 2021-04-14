@@ -197,6 +197,8 @@ for i in range(0, 9):
     for c in range(1,10):
         if anzahl_liste[str(c)] == 1 :
             print(str(c) + ' nur einmal')
+            print(ges_z)
+            print(ges_z.index([str(c)]))
     print('')
     ges_z = 0
 

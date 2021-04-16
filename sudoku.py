@@ -222,14 +222,14 @@ for i in range(0, 9):
     # finde herraus welche Zahl nur einmal vorkommt
     for c in range(1,10):
         if anzahl_liste[str(c)] == 1 :
-            print(str(c) + ' nur einmal in Spalte', end=' - ')
+            print(str(c) + ' nur einmal in Spalte ' + str(i), end=' - ')
 
             # finde herraus welches Kästchen
             for v in range(0,9):
                 if str(c) in  ges_s[v]:
                     print('gefunden in ' + str(v))
                     # schreibe gefundene Zahl in Kästchen
-                    A[i,v] = c
+                    #A[v,j] = c
     print('')
     ges_s = 0
 

@@ -126,7 +126,25 @@ def get_block(z, s):
     #print(A_block)
     return a_block
 
+def get_block_indices(i):
+    case = {0: [0 , 1, 2, 9,10,11,18,19,20],
+            1: [3 , 4, 5,12,13,14,21,22,23],
+            2: [6 , 7, 8,15,16,17,24,25,26],
 
+            3: [27,28,29,36,37,38,45,46,47],
+            4: [30,31,32,39,40,41,48,49,50],
+            5: [33,34,35,42,43,44,51,52,53],
+
+            6: [54,55,56,54,55,56,63,64,65],
+            7: [57,58,59,66,67,68,75,76,77],
+            8: [60,61,62,69,70,71,78,79,80],
+            }
+    return case[i]
+
+def convert_to_matrix_index(n):
+    s = int(n / 9)
+    z = (n + 1) % 9
+    return (s,z)
 
 def check_cell(z,s,list):
     #print('')
@@ -162,80 +180,108 @@ def check_cell(z,s,list):
             if zahl_block != 0 and (str(zahl_block) in list):
                 list.remove(str(zahl_block))
 
+################################################################################
+while True:
+    for n in range(0, 81):
+        # Spalte
+        for s in range(0, 9):
+            # Zeilen
+            for z in range(0, 9):
+                # für eine Zelle
+                check_cell(z=z, s=s, list=objs[9 * s + z].value)
 
-for n in range(0, 81):
-    # Spalte
-    for s in range(0, 9):
-        # Zeilen
-        for z in range(0, 9):
-            # für eine Zelle
-            check_cell(z=z, s=s, list=objs[9 * s + z].value)
+        # print_lsgmenge()
 
-    # print_lsgmenge()
-
-    # schreibe Lösung in Feld
-    for s in range(0, 9):
-        # Zeilen
-        for z in range(0, 9):
-            x = s * 9 + z
-            if len(objs[x].value) == 1:
-                for y in objs[x].value:
-                    value = int(y)
-                A[s, z] = value
+        # schreibe Lösung in Feld
+        for s in range(0, 9):
+            # Zeilen
+            for z in range(0, 9):
+                x = s * 9 + z
+                if len(objs[x].value) == 1:
+                    for y in objs[x].value:
+                        value = int(y)
+                    A[s, z] = value
 
 
-print(A)
-print('')
-
-# vervollständigen durch kombination
-
-for i in range(0, 9):
-
-    # zähle Zeile
-    ges_z = list()
-    for j in range(0, 9):
-        ges_z.append(objs[i * 9 + j].value)
-    anzahl_liste = Counter(flatten_list(ges_z))
-    print(ges_z)
-    print(anzahl_liste)
-    # finde herraus welche Zahl nur einmal vorkommt
-    for c in range(1,10):
-        if anzahl_liste[str(c)] == 1 :
-            print(str(c) + ' nur einmal in Zeile', end=' - ')
-
-            # finde herraus welches Kästchen
-            for v in range(0,9):
-                if str(c) in  ges_z[v]:
-                    print('gefunden in ' + str(v))
-                    # schreibe gefundene Zahl in Kästchen
-                    A[i,v] = c
+    print(A)
     print('')
-    ges_z = 0
 
-    # zähle Spalte
-    ges_s = list()
-    for j in range(0, 9):
-        ges_s.append(objs[j * 9 + i].value)
-    anzahl_liste = Counter(flatten_list(ges_s))
-    print(ges_s)
-    print(anzahl_liste)
-    # finde herraus welche Zahl nur einmal vorkommt
-    for c in range(1,10):
-        if anzahl_liste[str(c)] == 1 :
-            print(str(c) + ' nur einmal in Spalte ' + str(i), end=' - ')
+    # Vervollständigen durch Kombination
 
-            # finde herraus welches Kästchen
-            for v in range(0,9):
-                if str(c) in  ges_s[v]:
-                    print('gefunden in ' + str(v))
-                    # schreibe gefundene Zahl in Kästchen
-                    A[v,i] = c
-    print('')
-    ges_s = 0
+    for i in range(0, 9):
 
-    # zähle Block
+        # zähle Zeile
+        ges_z = list()
+        for j in range(0, 9):
+            ges_z.append(objs[i * 9 + j].value)
+        anzahl_liste = Counter(flatten_list(ges_z))
+        print(ges_z)
+        print(anzahl_liste)
+        # finde herraus welche Zahl nur einmal vorkommt
+        for c in range(1,10):
+            if anzahl_liste[str(c)] == 1 :
+                print(str(c) + ' nur einmal in Zeile', end=' - ')
 
-# eingeschränke Lösungsmenge
+                # finde herraus welches Kästchen
+                for v in range(0,9):
+                    if str(c) in  ges_z[v]:
+                        print('gefunden in ' + str(v))
+                        # schreibe gefundene Zahl in Kästchen
+                        A[i,v] = c
+        print('')
+        ges_z = 0
+
+        # zähle Spalte
+        ges_s = list()
+        for j in range(0, 9):
+            ges_s.append(objs[j * 9 + i].value)
+        anzahl_liste = Counter(flatten_list(ges_s))
+        print(ges_s)
+        print(anzahl_liste)
+        # finde herraus welche Zahl nur einmal vorkommt
+        for c in range(1,10):
+            if anzahl_liste[str(c)] == 1 :
+                print(str(c) + ' nur einmal in Spalte ' + str(i), end=' - ')
+
+                # finde herraus welches Kästchen
+                for v in range(0,9):
+                    if str(c) in  ges_s[v]:
+                        print('gefunden in ' + str(v))
+                        # schreibe gefundene Zahl in Kästchen
+                        A[v,i] = c
+        print('')
+        ges_s = 0
+
+        # zähle Block
+        ges_b = list()
+        block_indices = get_block_indices(i)
+        for j in block_indices:
+            ges_b.append(objs[j].value)
+        anzahl_liste = Counter(flatten_list(ges_b))
+        print(ges_b)
+        print(anzahl_liste)
+        # finde herraus welche Zahl nur einmal vorkommt
+        for c in range(1,10):
+            if anzahl_liste[str(c)] == 1 :
+                print(str(c) + ' nur einmal in Block ' + str(i), end=' - ')
+
+                # finde herraus welches Kästchen
+                for v in range(0,9):
+                    if str(c) in  ges_b[v]:
+                        print('gefunden in ' + str(v))
+                        # schreibe gefundene Zahl in Kästchen
+                        A[convert_to_matrix_index(v)] = c
+        print('')
+        ges_b = 0
+
+    if np.count_nonzero(A) == 80:
+        break
+
+    # Zwischenergebnis
+    print(A)
+
+
+# Lösung
 print(A)
 
 print('end.')

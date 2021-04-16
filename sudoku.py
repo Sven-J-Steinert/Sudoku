@@ -143,7 +143,7 @@ def get_block_indices(i):
 
 def convert_to_matrix_index(n):
     s = int(n / 9)
-    z = (n + 1) % 9
+    z = (n) % 9
     return (s,z)
 
 def check_cell(z,s,list):
@@ -181,7 +181,7 @@ def check_cell(z,s,list):
                 list.remove(str(zahl_block))
 
 ################################################################################
-while True:
+while np.count_nonzero(A) < 80:
     for n in range(0, 81):
         # Spalte
         for s in range(0, 9):
@@ -203,9 +203,6 @@ while True:
                     A[s, z] = value
 
 
-    print(A)
-    print('')
-
     # Vervollständigen durch Kombination
 
     for i in range(0, 9):
@@ -215,17 +212,17 @@ while True:
         for j in range(0, 9):
             ges_z.append(objs[i * 9 + j].value)
         anzahl_liste = Counter(flatten_list(ges_z))
-        print(ges_z)
-        print(anzahl_liste)
+        #print(ges_z)
+        #print(anzahl_liste)
         # finde herraus welche Zahl nur einmal vorkommt
         for c in range(1,10):
             if anzahl_liste[str(c)] == 1 :
-                print(str(c) + ' nur einmal in Zeile', end=' - ')
+                #print(str(c) + ' nur einmal in Zeile', end=' - ')
 
                 # finde herraus welches Kästchen
                 for v in range(0,9):
                     if str(c) in  ges_z[v]:
-                        print('gefunden in ' + str(v))
+                        #print('gefunden in ' + str(v))
                         # schreibe gefundene Zahl in Kästchen
                         A[i,v] = c
         print('')
@@ -236,17 +233,17 @@ while True:
         for j in range(0, 9):
             ges_s.append(objs[j * 9 + i].value)
         anzahl_liste = Counter(flatten_list(ges_s))
-        print(ges_s)
-        print(anzahl_liste)
+        #print(ges_s)
+        #print(anzahl_liste)
         # finde herraus welche Zahl nur einmal vorkommt
         for c in range(1,10):
             if anzahl_liste[str(c)] == 1 :
-                print(str(c) + ' nur einmal in Spalte ' + str(i), end=' - ')
+                #print(str(c) + ' nur einmal in Spalte ' + str(i), end=' - ')
 
                 # finde herraus welches Kästchen
                 for v in range(0,9):
                     if str(c) in  ges_s[v]:
-                        print('gefunden in ' + str(v))
+                        #print('gefunden in ' + str(v))
                         # schreibe gefundene Zahl in Kästchen
                         A[v,i] = c
         print('')
@@ -270,18 +267,19 @@ while True:
                     if str(c) in  ges_b[v]:
                         print('gefunden in ' + str(v))
                         # schreibe gefundene Zahl in Kästchen
-                        A[convert_to_matrix_index(v)] = c
+                        A[convert_to_matrix_index(block_indices[v])] = c
         print('')
         ges_b = 0
 
-    if np.count_nonzero(A) == 80:
-        break
-
     # Zwischenergebnis
     print(A)
+    print('')
 
+    input('[Enter]     for calculating one more round  \n[Ctrl]+[C]  to exit \n')
 
 # Lösung
+print('finale Lösung')
+print('')
 print(A)
 
 print('end.')

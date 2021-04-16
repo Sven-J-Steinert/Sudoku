@@ -225,7 +225,7 @@ while np.count_nonzero(A) < 80:
                         #print('gefunden in ' + str(v))
                         # schreibe gefundene Zahl in Kästchen
                         A[i,v] = c
-        print('')
+        #print('')
         ges_z = 0
 
         # zähle Spalte
@@ -246,7 +246,7 @@ while np.count_nonzero(A) < 80:
                         #print('gefunden in ' + str(v))
                         # schreibe gefundene Zahl in Kästchen
                         A[v,i] = c
-        print('')
+        #print('')
         ges_s = 0
 
         # zähle Block
@@ -255,23 +255,24 @@ while np.count_nonzero(A) < 80:
         for j in block_indices:
             ges_b.append(objs[j].value)
         anzahl_liste = Counter(flatten_list(ges_b))
-        print(ges_b)
-        print(anzahl_liste)
+        #print(ges_b)
+        #print(anzahl_liste)
         # finde herraus welche Zahl nur einmal vorkommt
         for c in range(1,10):
             if anzahl_liste[str(c)] == 1 :
-                print(str(c) + ' nur einmal in Block ' + str(i), end=' - ')
+                #print(str(c) + ' nur einmal in Block ' + str(i), end=' - ')
 
                 # finde herraus welches Kästchen
                 for v in range(0,9):
                     if str(c) in  ges_b[v]:
-                        print('gefunden in ' + str(v))
+                        #print('gefunden in ' + str(v))
                         # schreibe gefundene Zahl in Kästchen
                         A[convert_to_matrix_index(block_indices[v])] = c
-        print('')
+        #print('')
         ges_b = 0
 
     # Zwischenergebnis
+    print('Zwischenergebnis ' + str(np.count_nonzero(A)) + ' Einträge\n')
     print(A)
     print('')
 

@@ -181,10 +181,11 @@ for n in range(0, 81):
                 for y in objs[x].value:
                     value = int(y)
                 A[s, z] = value
-    print('')
-    print(A)
 
-# vervollständigen
+print('')
+print(A)
+
+# vervollständigen durch kombination
 
 for i in range(0, 9):
 
@@ -193,12 +194,16 @@ for i in range(0, 9):
     for j in range(0, 9):
         ges_z.append(objs[i * 9 + j].value)
     anzahl_liste = Counter(flatten_list(ges_z))
+    print(ges_z)
     print(anzahl_liste)
     for c in range(1,10):
         if anzahl_liste[str(c)] == 1 :
-            print(str(c) + ' nur einmal')
-            print(ges_z)
-            print(ges_z.index([str(c)]))
+            print(str(c) + ' nur einmal', end=' - ')
+            #print(ges_z)
+            # finde herraus welches kästchen
+            for v in range(0,9):
+                if str(c) in  ges_z[v]:
+                    print('gefunden in ' + str(v))
     print('')
     ges_z = 0
 

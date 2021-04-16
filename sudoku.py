@@ -4,15 +4,15 @@ from collections import Counter
 dif = input('wähle einfach [1] oder schwer [2]: ')
 # einfach
 if dif == '1':
-    A = np.array([[0, 0, 2, 6, 0, 0, 7, 0, 1, ],
-                  [6, 8, 0, 0, 7, 0, 0, 9, 0, ],
-                  [1, 9, 0, 0, 0, 4, 5, 0, 0, ],
-                  [8, 2, 0, 1, 0, 0, 0, 4, 0, ],
-                  [0, 0, 4, 6, 0, 2, 9, 0, 0, ],
-                  [0, 5, 0, 0, 0, 3, 0, 2, 8, ],
-                  [0, 0, 9, 3, 0, 0, 0, 7, 4, ],
-                  [0, 4, 0, 0, 5, 0, 0, 3, 6, ],
-                  [7, 0, 3, 0, 1, 8, 0, 0, 0, ]])
+    A = np.array([[5, 3, 0, 0, 7, 0, 0, 0, 0, ],
+                  [6, 0, 0, 1, 9, 5, 0, 0, 0, ],
+                  [0, 9, 8, 0, 0, 0, 0, 6, 0, ],
+                  [8, 0, 0, 0, 6, 0, 0, 0, 3, ],
+                  [4, 0, 0, 8, 0, 3, 0, 0, 1, ],
+                  [7, 0, 0, 0, 2, 0, 0, 0, 6, ],
+                  [0, 6, 0, 0, 0, 0, 2, 8, 0, ],
+                  [0, 0, 0, 4, 1, 9, 0, 0, 5, ],
+                  [0, 0, 0, 0, 8, 0, 0, 7, 9, ]])
 
 
 # schwer
@@ -82,8 +82,6 @@ for s in range(0, 9):
             objs[9 * s + z].value = [str(A[s, z])]
 
 
-# print_lsgmenge()
-
 
 def get_block(z, s):
     # alle kleinen Blöcke
@@ -101,29 +99,18 @@ def get_block(z, s):
             }
 
     # Zuweisung des richtigen Blockes
-    if (0 <= s < 3) and (0 <= z < 3):
-      a_block = case[1]
-    if (0 <= s < 3) and (3 <= z < 6):
-      a_block = case[2]
-    if (0 <= s < 3) and (6 <= z < 9):
-      a_block = case[3]
+    if (0 <= s < 3) and (0 <= z < 3):  a_block = case[1]
+    if (0 <= s < 3) and (3 <= z < 6):  a_block = case[2]
+    if (0 <= s < 3) and (6 <= z < 9):  a_block = case[3]
 
-    if (3 <= s < 6) and (0 <= z < 3):
-      a_block = case[4]
-    if (3 <= s < 6) and (3 <= z < 6):
-      a_block = case[5]
-    if (3 <= s < 6) and (6 <= z < 9):
-      a_block = case[6]
+    if (3 <= s < 6) and (0 <= z < 3):  a_block = case[4]
+    if (3 <= s < 6) and (3 <= z < 6):  a_block = case[5]
+    if (3 <= s < 6) and (6 <= z < 9):  a_block = case[6]
 
-    if (6 <= s < 9) and (0 <= z < 3):
-      a_block = case[7]
-    if (6 <= s < 9) and (3 <= z < 6):
-      a_block = case[8]
-    if (6 <= s < 9) and (6 <= z < 9):
-      a_block = case[9]
+    if (6 <= s < 9) and (0 <= z < 3):  a_block = case[7]
+    if (6 <= s < 9) and (3 <= z < 6):  a_block = case[8]
+    if (6 <= s < 9) and (6 <= z < 9):  a_block = case[9]
 
-
-    #print(A_block)
     return a_block
 
 def get_block_indices(i):
@@ -179,9 +166,13 @@ def check_cell(z,s,list):
             # prüfe Block
             if zahl_block != 0 and (str(zahl_block) in list):
                 list.remove(str(zahl_block))
+    else:
+        list = [str(cell)]
+
 
 ################################################################################
-while np.count_nonzero(A) < 80:
+
+while np.count_nonzero(A) != 81:
     for n in range(0, 81):
         # Spalte
         for s in range(0, 9):
@@ -190,7 +181,6 @@ while np.count_nonzero(A) < 80:
                 # für eine Zelle
                 check_cell(z=z, s=s, list=objs[9 * s + z].value)
 
-        # print_lsgmenge()
 
         # schreibe Lösung in Feld
         for s in range(0, 9):

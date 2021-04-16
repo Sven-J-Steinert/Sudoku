@@ -229,7 +229,7 @@ for i in range(0, 9):
                 if str(c) in  ges_s[v]:
                     print('gefunden in ' + str(v))
                     # schreibe gefundene Zahl in Kästchen
-                    #A[v,j] = c
+                    A[v,i] = c
     print('')
     ges_s = 0
 

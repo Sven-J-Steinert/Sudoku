@@ -31,6 +31,7 @@ if dif != '1' and dif != '2':
     print('Ungültige Eingabe')
     exit(0)
 
+print('')
 print(A)
 print('')
 
@@ -182,8 +183,9 @@ for n in range(0, 81):
                     value = int(y)
                 A[s, z] = value
 
-print('')
+
 print(A)
+print('')
 
 # vervollständigen durch kombination
 
@@ -196,21 +198,44 @@ for i in range(0, 9):
     anzahl_liste = Counter(flatten_list(ges_z))
     print(ges_z)
     print(anzahl_liste)
+    # finde herraus welche Zahl nur einmal vorkommt
     for c in range(1,10):
         if anzahl_liste[str(c)] == 1 :
-            print(str(c) + ' nur einmal', end=' - ')
-            #print(ges_z)
-            # finde herraus welches kästchen
+            print(str(c) + ' nur einmal in Zeile', end=' - ')
+
+            # finde herraus welches Kästchen
             for v in range(0,9):
                 if str(c) in  ges_z[v]:
                     print('gefunden in ' + str(v))
+                    # schreibe gefundene Zahl in Kästchen
+                    A[i,v] = c
     print('')
     ges_z = 0
 
     # zähle Spalte
+    ges_s = list()
+    for j in range(0, 9):
+        ges_s.append(objs[j * 9 + i].value)
+    anzahl_liste = Counter(flatten_list(ges_s))
+    print(ges_s)
+    print(anzahl_liste)
+    # finde herraus welche Zahl nur einmal vorkommt
+    for c in range(1,10):
+        if anzahl_liste[str(c)] == 1 :
+            print(str(c) + ' nur einmal in Spalte', end=' - ')
+
+            # finde herraus welches Kästchen
+            for v in range(0,9):
+                if str(c) in  ges_s[v]:
+                    print('gefunden in ' + str(v))
+                    # schreibe gefundene Zahl in Kästchen
+                    A[i,v] = c
+    print('')
+    ges_s = 0
 
     # zähle Block
 
 # eingeschränke Lösungsmenge
-# print_lsgmenge()
+print(A)
+
 print('end.')

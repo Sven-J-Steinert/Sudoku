@@ -1,6 +1,7 @@
 import numpy as np
 from collections import Counter
 import tkinter as tk
+from tkinter import ttk
 
 # Anfangslösungsmenge Klasse
 class LSG:
@@ -18,21 +19,31 @@ class GUI(tk.Frame):
       Draw the GUI
       '''
       self.parent.title("Sudoku")
-      #background_image=tk.PhotoImage("background.jpg")
-      #background_label = tk.Label(self.parent, image=background_image).pack()
-      #background_label.place(x=50, y=0, relwidth=1, relheight=1)
-      self.parent.grid_rowconfigure(1,weight=1)
-      self.parent.grid_columnconfigure(1,weight=1)
 
-      self.frame = tk.Frame(self.parent)
-      self.frame.pack(fill=tk.X, padx=5, pady=5)
+      self.frame = ttk.Frame(root, padding=5)
+      self.frame.grid(column=0,row=0)
+
+      COORDS_LIST = []
+      buttons_dict = {}
+      self.A = np.zeros((9,9))
+
+      def fire_here(x, y):
+          print("column:{}, row:{}".format(x, y))
+
+
 
 
       def refresh():
-          for i in range(0,self.A.shape[0]):
-              for j in range(0,self.A.shape[1]):
-                   self.b = tk.Button(self.frame, height=1, width=2, text = str(int(self.A[i,j])))
-                   self.b.grid(row=i,  column= j)
+          for r in range(0,9):
+              for c in range(0,9):
+                  coord = str(r)+"_"+str(c)
+                  COORDS_LIST.append(coord)
+                  buttons_dict[COORDS_LIST[-1]] = ttk.Button(self.frame, text=str(int(self.A[r,c])), width="2")
+                  ###########################################################################
+                  buttons_dict[COORDS_LIST[-1]]["command"] = lambda x=c, y=r: fire_here(x, y)
+                  ###########################################################################
+                  buttons_dict[COORDS_LIST[-1]].grid(row=r,column=c)
+
 
       def load_empty():
            self.A = np.zeros((9,9))
@@ -293,16 +304,16 @@ class GUI(tk.Frame):
 
       load_empty()
       refresh()
-      b_empty = tk.Button(self.parent, text="Load Empty", command=load_empty).pack()
-      b_easy = tk.Button(self.parent, text="Load Easy", command=load_easy).pack()
-      b_hard = tk.Button(self.parent, text="Load Hard", command=load_hard).pack()
+      b_empty = tk.Button(self.parent, text="Empty", command=load_empty).grid(row=10,column=0)
+      b_easy = tk.Button(self.parent, text="Easy", command=load_easy).grid(row=11,column=0)
+      b_hard = tk.Button(self.parent, text="Hard", command=load_hard).grid(row=12,column=0)
 
-      b_solve = tk.Button(self.parent, text="solve", command=solve).pack()
+      b_solve = tk.Button(self.parent, text="solve", command=solve).grid(row=13,column=0)
 
 
 # Start the main program here
 if __name__ == "__main__":
    root=tk.Tk()
-   root.geometry('230x350')
+   root.geometry('210x350')
    app = GUI(root)
    root.mainloop()

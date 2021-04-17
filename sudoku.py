@@ -32,13 +32,21 @@ class GUI(tk.Frame):
 
 
 
-
       def refresh():
+          # to display without zeros
+          A_ = [None]*81
+          for z in range(0,9):
+              for s in range(0,9):
+                  if self.A[z,s] == 0:
+                      A_[z*9+s] = ''
+                  else:
+                      A_[z*9+s] = self.A[z,s]
+                      
           for r in range(0,9):
               for c in range(0,9):
                   coord = str(r)+"_"+str(c)
                   COORDS_LIST.append(coord)
-                  buttons_dict[COORDS_LIST[-1]] = ttk.Button(self.frame, text=str(int(self.A[r,c])), width="2")
+                  buttons_dict[COORDS_LIST[-1]] = ttk.Button(self.frame, text=str(A_[r*9+c]), width="2")
                   ###########################################################################
                   buttons_dict[COORDS_LIST[-1]]["command"] = lambda x=c, y=r: fire_here(x, y)
                   ###########################################################################
@@ -304,9 +312,9 @@ class GUI(tk.Frame):
 
       load_empty()
       refresh()
-      b_empty = tk.Button(self.parent, text="Empty", command=load_empty).grid(row=10,column=0)
-      b_easy = tk.Button(self.parent, text="Easy", command=load_easy).grid(row=11,column=0)
-      b_hard = tk.Button(self.parent, text="Hard", command=load_hard).grid(row=12,column=0)
+      b_empty = tk.Button(self.parent, text="Load Empty", command=load_empty).grid(row=10,column=0)
+      b_easy = tk.Button(self.parent, text="Load Easy", command=load_easy).grid(row=11,column=0)
+      b_hard = tk.Button(self.parent, text="Load Hard", command=load_hard).grid(row=12,column=0)
 
       b_solve = tk.Button(self.parent, text="solve", command=solve).grid(row=13,column=0)
 

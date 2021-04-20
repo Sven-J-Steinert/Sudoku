@@ -3,28 +3,29 @@ from collections import Counter
 import tkinter as tk
 from tkinter import ttk
 
+
 # Anfangslösungsmenge Klasse
 class LSG:
     def __init__(self):
         self.value = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
+
 class GUI(tk.Frame):
-    def __init__(self,parent):
+    def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.parent.title("Sudoku")
         self.frame = ttk.Frame(root, padding=5)
-        self.frame.grid(column=0,row=0)
+        self.frame.grid(column=0, row=0)
         self.parent.bind("<Key>", self.key_pressed)
-        self.A = np.zeros((9,9))
+        self.A = np.zeros((9, 9))
         self.run()
 
-    def key_pressed(self,event):
-        print("Key Pressed:"+event.char)
+    def key_pressed(self, event):
+        print("Key Pressed:" + event.char)
         self.A[self.active_edit] = int(event.char)
         self.A = self.A.astype(int)
-        self.run(just_refresh = True)
-
+        self.run(just_refresh=True)
 
     def run(self, just_refresh=None):
         '''
@@ -34,42 +35,43 @@ class GUI(tk.Frame):
         COORDS_LIST = []
         buttons_dict = {}
 
-
         def fire_here(x, y):
 
             print("active edit:  column:{}, row:{}".format(x, y))
-            self.active_edit = (y,x)
-
-
+            self.active_edit = (y, x)
 
         def refresh():
 
-          # to display without zeros
-            A_ = [None]*81
-            for z in range(0,9):
-                for s in range(0,9):
-                    if self.A[z,s] == 0:
-                        A_[z*9+s] = ''
+            # to display without zeros
+            A_ = [None] * 81
+            for z in range(0, 9):
+                for s in range(0, 9):
+                    if self.A[z, s] == 0:
+                        A_[z * 9 + s] = ''
                     else:
-                        A_[z*9+s] = int(self.A[z,s])
+                        A_[z * 9 + s] = int(self.A[z, s])
 
-            for r in range(0,9):
-                for c in range(0,9):
-                    coord = str(r)+"_"+str(c)
+            for r in range(0, 9):
+                for c in range(0, 9):
+                    coord = str(r) + "_" + str(c)
                     COORDS_LIST.append(coord)
-                    buttons_dict[COORDS_LIST[-1]] = ttk.Button(self.frame, text=str(A_[r*9+c]), width="2")
+                    buttons_dict[COORDS_LIST[-1]] = tk.Button(self.frame, text=str(A_[r * 9 + c]), width="2", bg="black", fg="#22abb3")
                     ###########################################################################
                     buttons_dict[COORDS_LIST[-1]]["command"] = lambda x=c, y=r: fire_here(x, y)
                     ###########################################################################
-                    buttons_dict[COORDS_LIST[-1]].grid(row=r,column=c)
+                    if ((c+1)%3) == 0:
+                        buttons_dict[COORDS_LIST[-1]].grid(row=r, column=c, padx=(0,7))
+                    if ((r+1)%3) == 0:
+                        buttons_dict[COORDS_LIST[-1]].grid(row=r, column=c, pady=(0,7))
+                    else:
+                        buttons_dict[COORDS_LIST[-1]].grid(row=r, column=c)
 
         if just_refresh:
             refresh()
 
         def load_empty():
-            self.A = np.zeros((9,9))
+            self.A = np.zeros((9, 9))
             refresh()
-
 
         def load_easy():
             self.A = np.array([[5, 3, 0, 0, 7, 0, 0, 0, 0, ],
@@ -84,17 +86,16 @@ class GUI(tk.Frame):
             refresh()
 
         def load_hard():
-            self.A = np.array([[0, 3, 0, 0, 0, 0, 0, 0, 0,],
-                              [0, 0, 0, 1, 9, 5, 0, 0, 0,],
-                              [0, 0, 8, 0, 0, 0, 0, 6, 0,],
-                              [8, 0, 0, 0, 6, 0, 0, 0, 0,],
-                              [4, 0, 0, 8, 0, 0, 0, 0, 1,],
-                              [0, 0, 0, 0, 2, 0, 0, 0, 0,],
-                              [0, 6, 0, 0, 0, 0, 2, 8, 0,],
-                              [0, 0, 0, 4, 1, 9, 0, 0, 5,],
-                              [0, 0, 0, 0, 0, 0, 0, 7, 0,]])
+            self.A = np.array([[0, 3, 0, 0, 0, 0, 0, 0, 0, ],
+                               [0, 0, 0, 1, 9, 5, 0, 0, 0, ],
+                               [0, 0, 8, 0, 0, 0, 0, 6, 0, ],
+                               [8, 0, 0, 0, 6, 0, 0, 0, 0, ],
+                               [4, 0, 0, 8, 0, 0, 0, 0, 1, ],
+                               [0, 0, 0, 0, 2, 0, 0, 0, 0, ],
+                               [0, 6, 0, 0, 0, 0, 2, 8, 0, ],
+                               [0, 0, 0, 4, 1, 9, 0, 0, 5, ],
+                               [0, 0, 0, 0, 0, 0, 0, 7, 0, ]])
             refresh()
-
 
         def solve():
 
@@ -102,7 +103,6 @@ class GUI(tk.Frame):
             objs = list()
             for i in range(81):
                 objs.append(LSG())
-
 
             def print_lsgmenge():
                 for i in range(81):
@@ -113,7 +113,6 @@ class GUI(tk.Frame):
                         print('        ', end='')
                     print(objs[i].__dict__)
                 print('')
-
 
             def flatten_list(_2d_list):
                 flat_list = []
@@ -127,7 +126,6 @@ class GUI(tk.Frame):
                         flat_list.append(element)
                 return flat_list
 
-
             # reduziere die Lösungsmengen bei den gegebenen Werte
             # Spalte
             for s in range(0, 9):
@@ -136,8 +134,6 @@ class GUI(tk.Frame):
                     # für eine Zelle
                     if self.A[s, z] != 0:
                         objs[9 * s + z].value = [str(self.A[s, z])]
-
-
 
             def get_block(z, s):
                 # alle kleinen Blöcke
@@ -170,32 +166,31 @@ class GUI(tk.Frame):
                 return a_block
 
             def get_block_indices(i):
-                case = {0: [0 , 1, 2, 9,10,11,18,19,20],
-                        1: [3 , 4, 5,12,13,14,21,22,23],
-                        2: [6 , 7, 8,15,16,17,24,25,26],
+                case = {0: [0, 1, 2, 9, 10, 11, 18, 19, 20],
+                        1: [3, 4, 5, 12, 13, 14, 21, 22, 23],
+                        2: [6, 7, 8, 15, 16, 17, 24, 25, 26],
 
-                        3: [27,28,29,36,37,38,45,46,47],
-                        4: [30,31,32,39,40,41,48,49,50],
-                        5: [33,34,35,42,43,44,51,52,53],
+                        3: [27, 28, 29, 36, 37, 38, 45, 46, 47],
+                        4: [30, 31, 32, 39, 40, 41, 48, 49, 50],
+                        5: [33, 34, 35, 42, 43, 44, 51, 52, 53],
 
-                        6: [54,55,56,54,55,56,63,64,65],
-                        7: [57,58,59,66,67,68,75,76,77],
-                        8: [60,61,62,69,70,71,78,79,80],
+                        6: [54, 55, 56, 54, 55, 56, 63, 64, 65],
+                        7: [57, 58, 59, 66, 67, 68, 75, 76, 77],
+                        8: [60, 61, 62, 69, 70, 71, 78, 79, 80],
                         }
                 return case[i]
 
             def convert_to_matrix_index(n):
                 s = int(n / 9)
                 z = (n) % 9
-                return (s,z)
+                return (s, z)
 
-            def check_cell(z,s,list):
-                #print('')
-                #print('z (zeile): ', end='')
-                #print(z)
-                #print('s (spalte): ', end='')
-                #print(s)
-
+            def check_cell(z, s, list):
+                # print('')
+                # print('z (zeile): ', end='')
+                # print(z)
+                # print('s (spalte): ', end='')
+                # print(s)
 
                 # hole passenden Block und forme ihn zu einer Liste
                 block = get_block(z, s).reshape(1, 9)[0]
@@ -225,11 +220,10 @@ class GUI(tk.Frame):
                 else:
                     list = [str(cell)]
 
-
             ################################################################################
 
-            #while np.count_nonzero(self.A) != 81:
-            for d in range(0,2):
+            # while np.count_nonzero(self.A) != 81:
+            for d in range(0, 2):
                 for n in range(0, 81):
                     # Spalte
                     for s in range(0, 9):
@@ -237,7 +231,6 @@ class GUI(tk.Frame):
                         for z in range(0, 9):
                             # für eine Zelle
                             check_cell(z=z, s=s, list=objs[9 * s + z].value)
-
 
                     # schreibe Lösung in Feld
                     for s in range(0, 9):
@@ -249,7 +242,6 @@ class GUI(tk.Frame):
                                     value = int(y)
                                 self.A[s, z] = value
 
-
                 # Vervollständigen durch Kombination
 
                 for i in range(0, 9):
@@ -259,20 +251,20 @@ class GUI(tk.Frame):
                     for j in range(0, 9):
                         ges_z.append(objs[i * 9 + j].value)
                     anzahl_liste = Counter(flatten_list(ges_z))
-                    #print(ges_z)
-                    #print(anzahl_liste)
+                    # print(ges_z)
+                    # print(anzahl_liste)
                     # finde herraus welche Zahl nur einmal vorkommt
-                    for c in range(1,10):
-                        if anzahl_liste[str(c)] == 1 :
-                            #print(str(c) + ' nur einmal in Zeile', end=' - ')
+                    for c in range(1, 10):
+                        if anzahl_liste[str(c)] == 1:
+                            # print(str(c) + ' nur einmal in Zeile', end=' - ')
 
                             # finde herraus welches Kästchen
-                            for v in range(0,9):
-                                if str(c) in  ges_z[v]:
-                                    #print('gefunden in ' + str(v))
+                            for v in range(0, 9):
+                                if str(c) in ges_z[v]:
+                                    # print('gefunden in ' + str(v))
                                     # schreibe gefundene Zahl in Kästchen
-                                    self.A[i,v] = c
-                    #print('')
+                                    self.A[i, v] = c
+                    # print('')
                     ges_z = 0
 
                     # zähle Spalte
@@ -280,20 +272,20 @@ class GUI(tk.Frame):
                     for j in range(0, 9):
                         ges_s.append(objs[j * 9 + i].value)
                     anzahl_liste = Counter(flatten_list(ges_s))
-                    #print(ges_s)
-                    #print(anzahl_liste)
+                    # print(ges_s)
+                    # print(anzahl_liste)
                     # finde herraus welche Zahl nur einmal vorkommt
-                    for c in range(1,10):
-                        if anzahl_liste[str(c)] == 1 :
-                            #print(str(c) + ' nur einmal in Spalte ' + str(i), end=' - ')
+                    for c in range(1, 10):
+                        if anzahl_liste[str(c)] == 1:
+                            # print(str(c) + ' nur einmal in Spalte ' + str(i), end=' - ')
 
                             # finde herraus welches Kästchen
-                            for v in range(0,9):
-                                if str(c) in  ges_s[v]:
-                                    #print('gefunden in ' + str(v))
+                            for v in range(0, 9):
+                                if str(c) in ges_s[v]:
+                                    # print('gefunden in ' + str(v))
                                     # schreibe gefundene Zahl in Kästchen
-                                    self.A[v,i] = c
-                    #print('')
+                                    self.A[v, i] = c
+                    # print('')
                     ges_s = 0
 
                     # zähle Block
@@ -302,20 +294,20 @@ class GUI(tk.Frame):
                     for j in block_indices:
                         ges_b.append(objs[j].value)
                     anzahl_liste = Counter(flatten_list(ges_b))
-                    #print(ges_b)
-                    #print(anzahl_liste)
+                    # print(ges_b)
+                    # print(anzahl_liste)
                     # finde herraus welche Zahl nur einmal vorkommt
-                    for c in range(1,10):
-                        if anzahl_liste[str(c)] == 1 :
-                            #print(str(c) + ' nur einmal in Block ' + str(i), end=' - ')
+                    for c in range(1, 10):
+                        if anzahl_liste[str(c)] == 1:
+                            # print(str(c) + ' nur einmal in Block ' + str(i), end=' - ')
 
                             # finde herraus welches Kästchen
-                            for v in range(0,9):
-                                if str(c) in  ges_b[v]:
-                                    #print('gefunden in ' + str(v))
+                            for v in range(0, 9):
+                                if str(c) in ges_b[v]:
+                                    # print('gefunden in ' + str(v))
                                     # schreibe gefundene Zahl in Kästchen
                                     self.A[convert_to_matrix_index(block_indices[v])] = c
-                    #print('')
+                    # print('')
                     ges_b = 0
             if np.count_nonzero(self.A) == 81:
                 print('solved.')
@@ -324,18 +316,16 @@ class GUI(tk.Frame):
             refresh()
 
         refresh()
-        b_empty = tk.Button(self.parent, text="Load Empty", command=load_empty).grid(row=10,column=0)
-        b_easy = tk.Button(self.parent, text="Load Easy", command=load_easy).grid(row=11,column=0)
-        b_hard = tk.Button(self.parent, text="Load Hard", command=load_hard).grid(row=12,column=0)
+        b_empty = tk.Button(self.parent, bg="black", fg="#22abb3", text="Load Empty", command=load_empty).grid(row=10, column=0)
+        b_easy = tk.Button(self.parent, bg="black", fg="#22abb3", text="Load Easy", command=load_easy).grid(row=11, column=0)
+        b_hard = tk.Button(self.parent, bg="black", fg="#22abb3", text="Load Hard", command=load_hard).grid(row=12, column=0)
 
-        b_solve = tk.Button(self.parent, text="solve", command=solve).grid(row=13,column=0)
-
-
+        b_solve = tk.Button(self.parent, bg="black", fg="#22abb3", text="solve", command=solve).grid(row=13, column=0)
 
 
 # Start the main program here
 if __name__ == "__main__":
-   root=tk.Tk()
-   root.geometry('210x350')
-   app = GUI(root)
-   root.mainloop()
+    root = tk.Tk()
+    root.geometry('240x380')
+    app = GUI(root)
+    root.mainloop()

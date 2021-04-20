@@ -15,7 +15,7 @@ class GUI(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.parent.title("Sudoku")
-        self.frame = ttk.Frame(root, padding=5)
+        self.frame = tk.Frame(root, padx=5, pady=5, bg='black')
         self.frame.grid(column=0, row=0)
         self.parent.bind("<Key>", self.key_pressed)
         self.A = np.zeros((9, 9))
@@ -327,5 +327,6 @@ class GUI(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry('240x380')
+    root.configure(background='black')
     app = GUI(root)
     root.mainloop()

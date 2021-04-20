@@ -15,7 +15,7 @@ class GUI(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.parent.title("Sudoku")
-        self.frame = tk.Frame(root, padx=5, pady=5, bg='black')
+        self.frame = tk.Frame(root, padx=5, pady=5, bg='#181B28')
         self.frame.grid(column=0, row=0)
         self.parent.bind("<Key>", self.key_pressed)
         self.A = np.zeros((9, 9))
@@ -55,7 +55,7 @@ class GUI(tk.Frame):
                 for c in range(0, 9):
                     coord = str(r) + "_" + str(c)
                     COORDS_LIST.append(coord)
-                    buttons_dict[COORDS_LIST[-1]] = tk.Button(self.frame, text=str(A_[r * 9 + c]), width="2", bg="black", fg="#22abb3")
+                    buttons_dict[COORDS_LIST[-1]] = tk.Button(self.frame, text=str(A_[r * 9 + c]), width="2", bg="#282C34", fg="#79E6F3")
                     ###########################################################################
                     buttons_dict[COORDS_LIST[-1]]["command"] = lambda x=c, y=r: fire_here(x, y)
                     ###########################################################################
@@ -316,17 +316,17 @@ class GUI(tk.Frame):
             refresh()
 
         refresh()
-        b_empty = tk.Button(self.parent, bg="black", fg="#22abb3", text="Load Empty", command=load_empty).grid(row=10, column=0)
-        b_easy = tk.Button(self.parent, bg="black", fg="#22abb3", text="Load Easy", command=load_easy).grid(row=11, column=0)
-        b_hard = tk.Button(self.parent, bg="black", fg="#22abb3", text="Load Hard", command=load_hard).grid(row=12, column=0)
+        b_empty = tk.Button(self.parent, bg="#181B28", fg="#79E6F3", text="Load Empty", width=10, command=load_empty).grid(row=10, column=0)
+        b_easy = tk.Button(self.parent, bg="#181B28", fg="#79E6F3", text="Load Easy", width=10, command=load_easy).grid(row=11, column=0)
+        b_hard = tk.Button(self.parent, bg="#181B28", fg="#79E6F3", text="Load Hard", width=10, command=load_hard).grid(row=12, column=0)
 
-        b_solve = tk.Button(self.parent, bg="black", fg="#22abb3", text="solve", command=solve).grid(row=13, column=0)
+        b_solve = tk.Button(self.parent, bg="#181B28", fg="#79E6F3", text="solve", width=10, command=solve).grid(row=13, column=0)
 
 
 # Start the main program here
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry('240x380')
-    root.configure(background='black')
+    root.configure(background='#181B28')
     app = GUI(root)
     root.mainloop()
